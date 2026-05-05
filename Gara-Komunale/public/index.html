@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gara Komunale e Diturisë 2026 – Shtime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2233;
+    --border: #1e2d45;
+    --accent: #3b82f6;
+    --accent2: #06b6d4;
+    --gold: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --text: #e8edf5;
+    --text2: #8b9ab5;
+    --radius: 14px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Sora',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+  /* ── BACKGROUNDS ── */
+  .bg-grid {
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image: linear-gradient(rgba(59,130,246,.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(59,130,246,.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-glow {
+    position:fixed; width:600px; height:600px; border-radius:50%;
+    background: radial-gradient(circle, rgba(59,130,246,.08) 0%, transparent 70%);
+    top:-200px; right:-200px; pointer-events:none; z-index:0;
+  }
+
+  /* ── LAYOUT ── */
+  .page { position:relative; z-index:1; display:none; min-height:100vh; }
+  .page.active { display:flex; flex-direction:column; }
+  .container { max-width:1100px; margin:0 auto; padding:0 24px; width:100%; }
+
+  /* ── HEADER ── */
+  .header {
+    padding:20px 0;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,14,26,.8);
+    backdrop-filter: blur(20px);
+    position:sticky; top:0; z-index:100;
+  }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; }
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-icon {
+    width:40px; height:40px; border-radius:10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .logo-text { font-size:15px; font-weight:700; }
+  .logo-sub { font-size:11px; color:var(--text2); font-weight:400; }
+  .nav-pills { display:flex; gap:8px; }
+  .nav-pill {
+    padding:7px 18px; border-radius:100px; font-size:13px; font-weight:600;
+    cursor:pointer; border:1px solid var(--border); background:transparent;
+    color:var(--text2); transition:.2s; font-family:'Sora',sans-serif;
+  }
+  .nav-pill:hover { border-color:var(--accent); color:var(--text); }
+  .nav-pill.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* ── CARDS ── */
+  .card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:28px; transition:.2s;
+  }
+  .card:hover { border-color: rgba(59,130,246,.3); }
+  .card-title { font-size:18px; font-weight:700; margin-bottom:6px; }
+  .card-sub { font-size:13px; color:var(--text2); margin-bottom:20px; }
+
+  /* ── FORMS ── */
+  .form-group { margin-bottom:16px; }
+  .form-label { display:block; font-size:12px; font-weight:600; color:var(--text2); margin-bottom:6px; letter-spacing:.05em; text-transform:uppercase; }
+  .form-input, .form-select, .form-textarea {
+    width:100%; background:var(--surface2); border:1px solid var(--border);
+    border-radius:8px; padding:10px 14px; color:var(--text); font-family:'Sora',sans-serif;
+    font-size:14px; outline:none; transition:.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(59,130,246,.12); }
+  .form-select option { background:var(--surface2); }
+  .form-textarea { resize:vertical; min-height:80px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    padding:11px 24px; border-radius:8px; font-family:'Sora',sans-serif;
+    font-size:14px; font-weight:600; cursor:pointer; border:none; transition:.15s;
+    display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .btn-primary { background:var(--accent); color:#fff; }
+  .btn-primary:hover { background:#2563eb; transform:translateY(-1px); }
+  .btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+  .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+  .btn-success { background:var(--green); color:#fff; }
+  .btn-success:hover { background:#059669; }
+  .btn-danger { background:var(--red); color:#fff; }
+  .btn-danger:hover { background:#dc2626; }
+  .btn-gold { background:var(--gold); color:#000; }
+  .btn-sm { padding:7px 14px; font-size:12px; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
+
+  /* ── BADGES ── */
+  .badge { padding:3px 10px; border-radius:100px; font-size:11px; font-weight:700; display:inline-block; }
+  .badge-blue { background:rgba(59,130,246,.15); color:var(--accent); }
+  .badge-green { background:rgba(16,185,129,.15); color:var(--green); }
+  .badge-red { background:rgba(239,68,68,.15); color:var(--red); }
+  .badge-gold { background:rgba(245,158,11,.15); color:var(--gold); }
+
+  /* ── GRID ── */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+
+  /* ── ALERT ── */
+  .alert { padding:12px 16px; border-radius:8px; font-size:13px; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .alert-error { background:rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.3); color:#fca5a5; }
+  .alert-success { background:rgba(16,185,129,.1); border:1px solid rgba(16,185,129,.3); color:#6ee7b7; }
+  .alert-warn { background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.3); color:#fcd34d; }
+
+  /* ── TABLES ── */
+  .table-wrap { overflow-x:auto; border-radius:var(--radius); border:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  thead th { background:var(--surface2); padding:12px 16px; text-align:left; font-size:11px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.05em; }
+  tbody tr { border-top:1px solid var(--border); transition:.15s; }
+  tbody tr:hover { background:var(--surface2); }
+  tbody td { padding:12px 16px; }
+  .rank-1 td:first-child { color:var(--gold); font-weight:700; }
+  .rank-2 td:first-child { color:#94a3b8; font-weight:700; }
+  .rank-3 td:first-child { color:#b45309; font-weight:700; }
+
+  /* ── TIMER ── */
+  #timer-display {
+    font-family:'JetBrains Mono',monospace;
+    font-size:42px; font-weight:600; text-align:center;
+    color:var(--accent);
+    background: var(--surface2); border:1px solid var(--border);
+    border-radius:var(--radius); padding:20px; margin-bottom:20px;
+    letter-spacing:4px;
+  }
+  #timer-display.warn { color:var(--gold); border-color:rgba(245,158,11,.4); animation: pulse 1s infinite; }
+  #timer-display.danger { color:var(--red); border-color:rgba(239,68,68,.4); animation: pulse .5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:24px; margin-bottom:16px;
+  }
+  .question-text { font-size:16px; font-weight:600; margin-bottom:20px; line-height:1.5; }
+  .option-btn {
+    width:100%; text-align:left; background:var(--surface2); border:1px solid var(--border);
+    border-radius:8px; padding:12px 16px; margin-bottom:8px; color:var(--text);
+    font-family:'Sora',sans-serif; font-size:14px; cursor:pointer; transition:.15s;
+    display:flex; align-items:center; gap:12px;
+  }
+  .option-btn:hover { border-color:var(--accent); background:rgba(59,130,246,.05); }
+  .option-btn.selected { border-color:var(--accent); background:rgba(59,130,246,.12); color:var(--accent); }
+  .option-btn.correct { border-color:var(--green); background:rgba(16,185,129,.12); color:var(--green); }
+  .option-btn.wrong { border-color:var(--red); background:rgba(239,68,68,.12); color:var(--red); }
+  .option-letter {
+    width:28px; height:28px; border-radius:6px; background:var(--surface);
+    border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; flex-shrink:0;
+  }
+  .question-nav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .q-dot {
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--border);
+    background:var(--surface2); cursor:pointer; font-size:12px; font-weight:600;
+    display:flex; align-items:center; justify-content:center; transition:.15s; color:var(--text2);
+  }
+  .q-dot:hover { border-color:var(--accent); }
+  .q-dot.answered { background:rgba(59,130,246,.2); border-color:var(--accent); color:var(--accent); }
+  .q-dot.current { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+  /* ── PROGRESS ── */
+  .progress-bar { height:6px; background:var(--surface2); border-radius:100px; overflow:hidden; margin-bottom:16px; }
+  .progress-fill { height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); border-radius:100px; transition:.3s; }
+
+  /* ── RESULT SCREEN ── */
+  .score-circle {
+    width:160px; height:160px; border-radius:50%; margin:0 auto 24px;
+    background: conic-gradient(var(--accent) var(--pct, 0%), var(--surface2) 0%);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .score-circle::before {
+    content:''; position:absolute; width:130px; height:130px; background:var(--surface); border-radius:50%;
+  }
+  .score-inner { position:relative; z-index:1; text-align:center; }
+  .score-num { font-size:36px; font-weight:800; }
+  .score-max { font-size:14px; color:var(--text2); }
+
+  /* ── ADMIN CREATE TEST ── */
+  .question-builder { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:12px; }
+  .qb-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+  .options-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+  /* ── MODAL ── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1000; display:none; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:32px; max-width:540px; width:90%; max-height:90vh; overflow-y:auto; }
+  .modal-title { font-size:20px; font-weight:700; margin-bottom:20px; }
+  .modal-close { float:right; background:none; border:none; color:var(--text2); cursor:pointer; font-size:20px; }
+
+  /* ── LANDING ── */
+  .landing-hero { padding:80px 0 60px; text-align:center; }
+  .landing-hero h1 { font-size:52px; font-weight:800; line-height:1.1; margin-bottom:16px;
+    background:linear-gradient(135deg, #fff 0%, var(--accent2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .landing-hero p { font-size:18px; color:var(--text2); margin-bottom:40px; max-width:500px; margin-left:auto; margin-right:auto; }
+  .landing-cards { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:700px; margin:0 auto 60px; }
+  .landing-card {
+    background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:36px 28px;
+    cursor:pointer; transition:.25s; text-align:left;
+  }
+  .landing-card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 20px 60px rgba(59,130,246,.15); }
+  .lc-icon { font-size:32px; margin-bottom:16px; }
+  .lc-title { font-size:20px; font-weight:700; margin-bottom:8px; }
+  .lc-desc { font-size:13px; color:var(--text2); line-height:1.6; }
+  .stats-row { display:flex; justify-content:center; gap:32px; flex-wrap:wrap; }
+  .stat-item { text-align:center; }
+  .stat-num { font-size:36px; font-weight:800; color:var(--accent); }
+  .stat-label { font-size:12px; color:var(--text2); margin-top:4px; }
+
+  /* ── MISC ── */
+  .divider { height:1px; background:var(--border); margin:24px 0; }
+  .flex { display:flex; }
+  .flex-between { display:flex; justify-content:space-between; align-items:center; }
+  .flex-center { display:flex; align-items:center; gap:10px; }
+  .gap-2 { gap:8px; }
+  .gap-3 { gap:12px; }
+  .mt-1 { margin-top:8px; }
+  .mt-2 { margin-top:16px; }
+  .mt-3 { margin-top:24px; }
+  .mb-1 { margin-bottom:8px; }
+  .mb-2 { margin-bottom:16px; }
+  .mb-3 { margin-bottom:24px; }
+  .text-center { text-align:center; }
+  .text-sm { font-size:13px; }
+  .text-muted { color:var(--text2); }
+  .mono { font-family:'JetBrains Mono',monospace; }
+  .code-box { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:16px 20px; font-family:'JetBrains Mono',monospace; font-size:28px; font-weight:700; text-align:center; letter-spacing:8px; color:var(--accent2); }
+  .hidden { display:none !important; }
+  
+  /* scrollbar */
+  ::-webkit-scrollbar { width:6px; } 
+  ::-webkit-scrollbar-track { background:var(--surface); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+  @media(max-width:640px) {
+    .landing-cards, .grid-2, .grid-3 { grid-template-columns:1fr; }
+    .landing-hero h1 { font-size:32px; }
+    .options-grid { grid-template-columns:1fr; }
+    .stats-row { gap:20px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ═══════════════════════════════════════════════════════
+     LANDING PAGE
+═══════════════════════════════════════════════════════ -->
+<div id="page-landing" class="page active">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">🏆</div>
+          <div>
+            <div class="logo-text">Gara e Diturisë 2026</div>
+            <div class="logo-sub">Qendra e Inovacionit – Shtime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="flex:1">
+    <div class="landing-hero">
+      <h1>Gara Komunale<br>e Diturisë 2026</h1>
+      <p>Platforma elektronike për organizimin dhe zhvillimin e garës akademike komunale – Shtime</p>
+    </div>
+    <div class="landing-cards">
+      <div class="landing-card" onclick="showPage('page-student-login')">
+        <div class="lc-icon">🎓</div>
+        <div class="lc-title">Portal Nxënësi</div>
+        <div class="lc-desc">Hyr me kodin e testit dhe plotëso provimin. Rezultati shfaqet menjëherë pas dorëzimit.</div>
+        <div class="mt-2"><span class="badge badge-green">Hyr →</span></div>
+      </div>
+      <div class="landing-card" onclick="showPage('page-admin-login')">
+        <div class="lc-icon">⚙️</div>
+        <div class="lc-title">Panel Administratori</div>
+        <div class="lc-desc">Krijo dhe menaxho teste, shiko rezultatet dhe eksporto të dhënat.</div>
+        <div class="mt-2"><span class="badge badge-blue">Hyr →</span></div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num">245</div><div class="stat-label">Nxënës Pjesëmarrës</div></div>
+      <div class="stat-item"><div class="stat-num">9</div><div class="stat-label">Lëndë Mësimore</div></div>
+      <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Shkolla</div></div>
+      <div class="stat-item"><div class="stat-num">2</div><div class="stat-label">Ditë Gare</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     STUDENT LOGIN
+═══════════════════════════════════════════════════════ -->
+<div id="page-student-login" class="page">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">🎓</div>
+          <div><div class="logo-text">Portal Nxënësi</div></div>
+        </div>
+        <button class="nav-pill" onclick="showPage('page-landing')">← Kthehu</button>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px;">
+    <div style="width:100%; max-width:480px;">
+      <div class="card">
+        <div class="card-title">🎓 Regjistrohu për Garim</div>
+        <div class="card-sub">Plotëso të dhënat e tua dhe kodi i testit të dhënë nga administratori</div>
+        <div id="student-login-error"></div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Emri</label>
+            <input class="form-input" id="s-name" placeholder="Emri juaj" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mbiemri</label>
+            <input class="form-input" id="s-surname" placeholder="Mbiemri juaj" autocomplete="off">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Klasa</label>
+            <select class="form-select" id="s-grade">
+              <option value="">Zgjidh klasën</option>
+              <option value="VI">VI</option>
+              <option value="VII">VII</option>
+              <option value="VIII">VIII</option>
+              <option value="IX">IX</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Shkolla</label>
+            <select class="form-select" id="s-school">
+              <option value="">Zgjidh shkollën</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Kodi i Testit</label>
+          <input class="form-input mono" id="s-test-code" placeholder="P.sh. AB1234" autocomplete="off" style="letter-spacing:4px;font-size:18px;text-transform:uppercase">
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="studentLogin()">🚀 Fillo Testin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     QUIZ SCREEN
+═══════════════════════════════════════════════════════ -->
+<div id="page-quiz" class="page">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">📝</div>
+          <div>
+            <div class="logo-text" id="quiz-subject-header">Test</div>
+            <div class="logo-sub" id="quiz-student-header">Nxënës</div>
+          </div>
+        </div>
+        <div class="flex flex-center gap-3">
+          <span class="badge badge-blue" id="quiz-progress-badge">0/0</span>
+          <button class="btn btn-success btn-sm" onclick="confirmSubmit()">✓ Dorëzo Testin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="flex:1; padding:24px;">
+    <div style="max-width:800px; margin:0 auto;">
+      <div id="timer-display">60:00</div>
+      <div class="progress-bar mb-2"><div class="progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+      <div class="question-nav" id="question-nav"></div>
+      <div id="question-container"></div>
+      <div class="flex-between mt-2">
+        <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()">← Para</button>
+        <button class="btn btn-primary" id="btn-next" onclick="nextQuestion()">Tjetër →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     RESULT SCREEN
+═══════════════════════════════════════════════════════ -->
+<div id="page-result" class="page">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">🏆</div>
+          <div><div class="logo-text">Rezultati Juaj</div></div>
+        </div>
+        <button class="nav-pill" onclick="showPage('page-landing')">↩ Faqja Kryesore</button>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="flex:1; padding:40px 24px;">
+    <div style="max-width:720px; margin:0 auto;">
+      <div class="card text-center mb-2" id="result-summary"></div>
+      <div class="card" id="result-wrong-section" style="display:none">
+        <div class="card-title">❌ Pyetjet me Gabime</div>
+        <div class="card-sub">Shiko ku ke bërë gabim dhe cilat ishin përgjigjet e sakta</div>
+        <div id="result-wrong-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ADMIN LOGIN
+═══════════════════════════════════════════════════════ -->
+<div id="page-admin-login" class="page">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">⚙️</div>
+          <div><div class="logo-text">Panel Administratori</div></div>
+        </div>
+        <button class="nav-pill" onclick="showPage('page-landing')">← Kthehu</button>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px;">
+    <div style="width:100%; max-width:380px;">
+      <div class="card">
+        <div class="card-title">🔐 Hyrja e Administratorit</div>
+        <div class="card-sub">Kjo pjesë është vetëm për administratorët e DKA-së</div>
+        <div id="admin-login-error"></div>
+        <div class="form-group">
+          <label class="form-label">Përdoruesi</label>
+          <input class="form-input" id="a-username" placeholder="admin" value="admin">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fjalëkalimi</label>
+          <input class="form-input" id="a-password" type="password" placeholder="••••••••" value="admin123">
+        </div>
+        <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Hyr në Panel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     ADMIN DASHBOARD
+═══════════════════════════════════════════════════════ -->
+<div id="page-admin" class="page">
+  <div class="header">
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-icon">⚙️</div>
+          <div>
+            <div class="logo-text">Panel Administratori</div>
+            <div class="logo-sub">Gara Komunale e Diturisë 2026</div>
+          </div>
+        </div>
+        <div class="nav-pills">
+          <button class="nav-pill active" id="tab-tests" onclick="switchTab('tests')">📋 Testet</button>
+          <button class="nav-pill" id="tab-results" onclick="switchTab('results')">📊 Rezultatet</button>
+          <button class="nav-pill" onclick="adminLogout()">Dil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTS TAB -->
+  <div id="admin-tab-tests" class="container" style="padding:32px 24px;">
+    <div class="flex-between mb-3">
+      <div>
+        <h2 style="font-size:24px;font-weight:700">Menaxhimi i Testeve</h2>
+        <p class="text-muted text-sm mt-1">Krijo, shiko dhe menaxho testet e garës</p>
+      </div>
+      <button class="btn btn-primary" onclick="openCreateTest()">+ Krijo Test të Ri</button>
+    </div>
+    <div id="tests-list"></div>
+  </div>
+
+  <!-- RESULTS TAB -->
+  <div id="admin-tab-results" class="container hidden" style="padding:32px 24px;">
+    <div class="flex-between mb-3">
+      <div>
+        <h2 style="font-size:24px;font-weight:700">Rezultatet e Garës</h2>
+        <p class="text-muted text-sm mt-1">Klasifikimi sipas pikëve dhe kohëzgjatjes</p>
+      </div>
+      <div class="flex gap-3">
+        <select class="form-select" id="results-test-filter" onchange="loadResults()" style="width:220px">
+          <option value="">Të gjitha testet</option>
+        </select>
+      </div>
+    </div>
+    <div id="results-export-btns" class="hidden mb-2 flex gap-3"></div>
+    <div id="results-container"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════════════════ -->
+
+<!-- Create Test Modal -->
+<div class="modal-overlay" id="modal-create-test">
+  <div class="modal" style="max-width:780px; width:95%;">
+    <div class="flex-between mb-3">
+      <div class="modal-title">📝 Krijo Test të Ri</div>
+      <button class="modal-close" onclick="closeModal('modal-create-test')">✕</button>
+    </div>
+    <div id="create-test-error"></div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Lënda Mësimore</label>
+        <select class="form-select" id="ct-subject" onchange="updateQuestionCount()">
+          <option value="">Zgjidh lëndën...</option>
+          <optgroup label="Lëndët Shkencore (10 pyetje)">
+            <option value="Matematikë">Matematikë</option>
+            <option value="Fizikë">Fizikë</option>
+            <option value="Kimi">Kimi</option>
+            <option value="Biologji">Biologji</option>
+          </optgroup>
+          <optgroup label="Lëndët Shoqërore (20 pyetje)">
+            <option value="Gjuhë shqipe">Gjuhë shqipe</option>
+            <option value="Gjuhë angleze">Gjuhë angleze</option>
+            <option value="Histori">Histori</option>
+            <option value="Gjeografi">Gjeografi</option>
+            <option value="TIK">TIK</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Klasat</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;" id="ct-grades">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="VI" checked> VI</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="VII" checked> VII</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="VIII" checked> VIII</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" value="IX" checked> IX</label>
+        </div>
+      </div>
+    </div>
+    <div id="ct-info" class="alert alert-warn hidden"></div>
+    <div class="divider"></div>
+    <div class="flex-between mb-2">
+      <div style="font-size:15px;font-weight:700">Pyetjet <span id="q-count-label" class="badge badge-blue">0 pyetje</span></div>
+      <button class="btn btn-secondary btn-sm" onclick="addQuestion()">+ Shto Pyetje</button>
+    </div>
+    <div id="questions-builder" style="max-height:420px; overflow-y:auto; padding-right:4px;"></div>
+    <div class="divider"></div>
+    <div class="flex" style="justify-content:flex-end; gap:12px;">
+      <button class="btn btn-secondary" onclick="closeModal('modal-create-test')">Anulo</button>
+      <button class="btn btn-success" onclick="saveTest()">💾 Ruaj Testin</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Results Detail Modal -->
+<div class="modal-overlay" id="modal-student-detail">
+  <div class="modal" style="max-width:680px; width:95%;">
+    <div class="flex-between mb-3">
+      <div class="modal-title" id="modal-student-name">Detajet e Nxënësit</div>
+      <button class="modal-close" onclick="closeModal('modal-student-detail')">✕</button>
+    </div>
+    <div id="modal-student-content"></div>
+  </div>
+</div>
+
+<!-- Confirm Submit Modal -->
+<div class="modal-overlay" id="modal-confirm-submit">
+  <div class="modal" style="max-width:420px; width:90%; text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+    <div class="modal-title">Konfirmo Dorëzimin</div>
+    <p class="text-muted text-sm mb-3">Pas dorëzimit nuk mund të kthehesh mbrapa. Je i sigurt?</p>
+    <div id="unanswered-warn" class="alert alert-warn mb-2 hidden"></div>
+    <div class="flex" style="gap:12px; justify-content:center;">
+      <button class="btn btn-secondary" onclick="closeModal('modal-confirm-submit')">Vazhdo Testin</button>
+      <button class="btn btn-success" onclick="submitQuiz()">✓ Dorëzo Tani</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';  // same origin
+let adminSession = null;
+let quizState = null;
+let timerInterval = null;
+let schools = [];
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function switchTab(tab) {
+  document.getElementById('admin-tab-tests').classList.toggle('hidden', tab !== 'tests');
+  document.getElementById('admin-tab-results').classList.toggle('hidden', tab !== 'results');
+  document.getElementById('tab-tests').classList.toggle('active', tab === 'tests');
+  document.getElementById('tab-results').classList.toggle('active', tab !== 'tests');
+  if (tab === 'results') loadResults();
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+async function api(path, method='GET', body=null) {
+  const opts = { method, headers: {'Content-Type':'application/json'} };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch(API + path, opts);
+  return r.json();
+}
+
+function showError(elId, msg) {
+  const el = document.getElementById(elId);
+  if (el) el.innerHTML = `<div class="alert alert-error">⚠ ${msg}</div>`;
+}
+function clearError(elId) {
+  const el = document.getElementById(elId);
+  if (el) el.innerHTML = '';
+}
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function formatTime(secs) {
+  const m = Math.floor(secs/60).toString().padStart(2,'0');
+  const s = (secs%60).toString().padStart(2,'0');
+  return `${m}:${s}`;
+}
+function formatDuration(secs) {
+  if (!secs) return '-';
+  const m = Math.floor(secs/60);
+  const s = Math.round(secs%60);
+  return `${m}m ${s}s`;
+}
+function formatDate(ts) {
+  if (!ts) return '-';
+  return new Date(ts*1000).toLocaleString('sq-AL');
+}
+
+// ── LOAD SCHOOLS ─────────────────────────────────────────────────────────────
+async function loadSchools() {
+  schools = await api('/api/schools');
+  const sel = document.getElementById('s-school');
+  sel.innerHTML = '<option value="">Zgjidh shkollën</option>';
+  schools.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s.id;
+    o.textContent = s.name;
+    sel.appendChild(o);
+  });
+}
+loadSchools();
+
+// ── STUDENT FLOW ──────────────────────────────────────────────────────────────
+async function studentLogin() {
+  clearError('student-login-error');
+  const name = document.getElementById('s-name').value.trim();
+  const surname = document.getElementById('s-surname').value.trim();
+  const grade = document.getElementById('s-grade').value;
+  const school = document.getElementById('s-school').value;
+  const code = document.getElementById('s-test-code').value.trim().toUpperCase();
+  if (!name || !surname || !grade || !school || !code) {
+    return showError('student-login-error', 'Plotëso të gjitha fushat!');
+  }
+  try {
+    const data = await api('/api/session/start', 'POST', { name, surname, grade, school, test_code: code });
+    if (data.error) return showError('student-login-error', data.error);
+    startQuiz(data);
+  } catch(e) { showError('student-login-error', 'Gabim lidhjeje. Provo sërish.'); }
+}
+
+function startQuiz(data) {
+  quizState = {
+    session_id: data.session_id,
+    questions: data.questions,
+    answers: {},
+    current: 0,
+    duration: data.duration_seconds,
+    remaining: data.duration_seconds,
+    started_at: data.started_at,
+    subject: data.subject
+  };
+  document.getElementById('quiz-subject-header').textContent = data.subject;
+  const sName = document.getElementById('s-name').value + ' ' + document.getElementById('s-surname').value;
+  document.getElementById('quiz-student-header').textContent = sName;
+  renderQuestion(0);
+  buildQuestionNav();
+  startTimer();
+  showPage('page-quiz');
+}
+
+function buildQuestionNav() {
+  const nav = document.getElementById('question-nav');
+  nav.innerHTML = '';
+  quizState.questions.forEach((q, i) => {
+    const d = document.createElement('div');
+    d.className = 'q-dot' + (i===0?' current':'');
+    d.textContent = i+1;
+    d.id = `qdot-${i}`;
+    d.onclick = () => goToQuestion(i);
+    nav.appendChild(d);
+  });
+}
+
+function updateQuestionNav() {
+  quizState.questions.forEach((q, i) => {
+    const d = document.getElementById(`qdot-${i}`);
+    if (!d) return;
+    d.className = 'q-dot';
+    if (quizState.answers[i] !== undefined) d.classList.add('answered');
+    if (i === quizState.current) d.classList.add('current');
+  });
+  const answered = Object.keys(quizState.answers).length;
+  const total = quizState.questions.length;
+  document.getElementById('quiz-progress-badge').textContent = `${answered}/${total}`;
+  document.getElementById('quiz-progress-fill').style.width = `${(answered/total)*100}%`;
+}
+
+function renderQuestion(idx) {
+  const q = quizState.questions[idx];
+  const saved = quizState.answers[idx];
+  const letters = ['A','B','C','D'];
+  let html = `<div class="question-card">
+    <div class="text-muted text-sm mb-1">Pyetja ${idx+1} nga ${quizState.questions.length}</div>
+    <div class="question-text">${q.question}</div>`;
+  q.options.forEach((opt, oi) => {
+    const sel = saved === oi ? ' selected' : '';
+    html += `<button class="option-btn${sel}" onclick="selectAnswer(${idx},${oi})">
+      <span class="option-letter">${letters[oi]}</span>${opt}
+    </button>`;
+  });
+  html += `</div>`;
+  document.getElementById('question-container').innerHTML = html;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').textContent = idx === quizState.questions.length-1 ? 'Dorëzo ✓' : 'Tjetër →';
+  document.getElementById('btn-next').onclick = idx === quizState.questions.length-1 ? confirmSubmit : nextQuestion;
+  updateQuestionNav();
+}
+
+function selectAnswer(qIdx, optIdx) {
+  quizState.answers[qIdx] = optIdx;
+  // Auto-save
+  api('/api/session/save-answer', 'POST', { session_id: quizState.session_id, question_index: qIdx, answer: optIdx });
+  renderQuestion(qIdx);
+}
+
+function goToQuestion(idx) {
+  quizState.current = idx;
+  renderQuestion(idx);
+}
+function prevQuestion() { if (quizState.current > 0) goToQuestion(quizState.current-1); }
+function nextQuestion() {
+  if (quizState.current < quizState.questions.length-1) goToQuestion(quizState.current+1);
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    quizState.remaining--;
+    const el = document.getElementById('timer-display');
+    el.textContent = formatTime(quizState.remaining);
+    el.className = '';
+    if (quizState.remaining <= 300) el.classList.add('warn');
+    if (quizState.remaining <= 60) el.classList.add('danger');
+    if (quizState.remaining <= 0) {
+      clearInterval(timerInterval);
+      submitQuiz(true);
+    }
+  }, 1000);
+}
+
+function confirmSubmit() {
+  const answered = Object.keys(quizState.answers).length;
+  const total = quizState.questions.length;
+  const unanswered = total - answered;
+  const warnEl = document.getElementById('unanswered-warn');
+  if (unanswered > 0) {
+    warnEl.textContent = `⚠ Ke ${unanswered} pyetje të papërgjigjura!`;
+    warnEl.classList.remove('hidden');
+  } else {
+    warnEl.classList.add('hidden');
+  }
+  openModal('modal-confirm-submit');
+}
+
+async function submitQuiz(auto=false) {
+  closeModal('modal-confirm-submit');
+  clearInterval(timerInterval);
+  try {
+    const data = await api('/api/session/submit', 'POST', {
+      session_id: quizState.session_id,
+      answers: quizState.answers
+    });
+    if (data.error) { alert('Gabim: ' + data.error); return; }
+    showResult(data);
+  } catch(e) { alert('Gabim lidhjeje gjatë dorëzimit!'); }
+}
+
+function showResult(data) {
+  const pct = Math.round(data.score / data.max_score * 100);
+  const passed = pct >= 50;
+  
+  let summaryHtml = `
+    <div class="score-circle" style="--pct:${pct*3.6}deg">
+      <div class="score-inner">
+        <div class="score-num" style="color:${passed?'var(--green)':'var(--red)'}">${data.score}</div>
+        <div class="score-max">/ ${data.max_score}</div>
+      </div>
+    </div>
+    <h2 style="font-size:26px;font-weight:800;margin-bottom:8px">${data.student_name} ${data.student_surname}</h2>
+    <p class="text-muted mb-3">${data.subject} · Klasa ${data.grade} · ${data.school}</p>
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:20px">
+      <span class="badge ${passed?'badge-green':'badge-red'}">${pct}%</span>
+      <span class="badge badge-blue">ID: ${data.session_id.substring(0,8).toUpperCase()}</span>
+      <span class="badge badge-gold">⏱ ${formatDuration(data.duration_taken)}</span>
+    </div>
+    <div class="grid-3" style="gap:12px;margin-bottom:8px;text-align:center">
+      <div class="card" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:var(--green)">${data.correct_questions.length}</div>
+        <div class="text-muted text-sm">Saktë</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:var(--red)">${data.wrong_questions.length}</div>
+        <div class="text-muted text-sm">Gabim</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div style="font-size:28px;font-weight:800;color:var(--accent)">${data.total_questions}</div>
+        <div class="text-muted text-sm">Gjithsej</div>
+      </div>
+    </div>`;
+  
+  document.getElementById('result-summary').innerHTML = summaryHtml;
+  
+  const wrongSec = document.getElementById('result-wrong-section');
+  const wrongList = document.getElementById('result-wrong-list');
+  
+  if (data.wrong_questions && data.wrong_questions.length > 0) {
+    wrongSec.style.display = 'block';
+    const letters = ['A','B','C','D'];
+    wrongList.innerHTML = data.wrong_questions.map((wq, i) => `
+      <div class="question-builder" style="margin-bottom:12px">
+        <div style="font-weight:600;margin-bottom:10px">❌ Pyetja ${wq.index+1}: ${wq.question}</div>
+        ${wq.options.map((opt, oi) => {
+          let cls = '';
+          if (oi === wq.correct_answer) cls = 'correct';
+          else if (oi === wq.your_answer) cls = 'wrong';
+          return `<div class="option-btn ${cls}" style="cursor:default;margin-bottom:6px">
+            <span class="option-letter">${letters[oi]}</span>${opt}
+            ${oi === wq.correct_answer ? '<span class="badge badge-green" style="margin-left:auto">✓ Saktë</span>' : ''}
+            ${oi === wq.your_answer && oi !== wq.correct_answer ? '<span class="badge badge-red" style="margin-left:auto">✗ Zgjedhja jote</span>' : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    `).join('');
+  } else {
+    wrongSec.style.display = 'none';
+  }
+  
+  showPage('page-result');
+}
+
+// ── ADMIN FLOW ────────────────────────────────────────────────────────────────
+async function adminLogin() {
+  clearError('admin-login-error');
+  const username = document.getElementById('a-username').value;
+  const password = document.getElementById('a-password').value;
+  const data = await api('/api/admin/login', 'POST', { username, password });
+  if (data.success) {
+    adminSession = data;
+    showPage('page-admin');
+    loadTests();
+  } else {
+    showError('admin-login-error', data.error || 'Kredencialet janë të gabuara');
+  }
+}
+
+function adminLogout() {
+  adminSession = null;
+  showPage('page-landing');
+}
+
+async function loadTests() {
+  const data = await api('/api/tests');
+  const container = document.getElementById('tests-list');
+  const filter = document.getElementById('results-test-filter');
+  filter.innerHTML = '<option value="">Të gjitha testet</option>';
+  
+  if (!data.length) {
+    container.innerHTML = `<div class="card text-center" style="padding:48px">
+      <div style="font-size:48px;margin-bottom:16px">📭</div>
+      <div style="font-size:18px;font-weight:600;margin-bottom:8px">Asnjë test nuk është krijuar</div>
+      <p class="text-muted">Klikoni "Krijo Test të Ri" për të filluar</p>
+    </div>`;
+    return;
+  }
+  
+  const subjects = {
+    'Matematikë':'🔢','Fizikë':'⚛️','Kimi':'🧪','Biologji':'🧬',
+    'Gjuhë shqipe':'📖','Gjuhë angleze':'🇬🇧','Histori':'🏛️','Gjeografi':'🌍','TIK':'💻'
+  };
+  
+  container.innerHTML = `<div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>Lënda</th><th>Kodi i Testit</th><th>Klasat</th><th>Pyetjet</th><th>Data e Krijimit</th><th>Statusi</th><th>Veprime</th>
+      </tr></thead>
+      <tbody>
+        ${data.map(t => {
+          filter.innerHTML += `<option value="${t.id}">${t.subject} (${t.test_code})</option>`;
+          return `<tr>
+            <td><div class="flex flex-center gap-2"><span>${subjects[t.subject]||'📝'}</span><span style="font-weight:600">${t.subject}</span></div></td>
+            <td><span class="badge badge-blue mono" style="font-size:14px;letter-spacing:3px">${t.test_code}</span></td>
+            <td>${t.grade_levels.join(', ')}</td>
+            <td>${getQuestionCount(t.subject)} pyetje</td>
+            <td class="text-muted">${formatDate(t.created_at)}</td>
+            <td><span class="badge ${t.active?'badge-green':'badge-red'}">${t.active?'Aktiv':'Joaktiv'}</span></td>
+            <td>
+              <div class="flex gap-2">
+                <a href="/api/export/excel/${t.id}" class="btn btn-secondary btn-sm">📊 Excel</a>
+                <a href="/api/export/pdf/${t.id}" class="btn btn-secondary btn-sm">📄 PDF</a>
+                <button class="btn btn-danger btn-sm" onclick="deleteTest('${t.id}')">🗑</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function getQuestionCount(subject) {
+  const ten = ['Matematikë','Fizikë','Kimi','Biologji'];
+  // Biologji has 20 per spec
+  if (subject === 'Biologji') return 20;
+  if (ten.includes(subject)) return 10;
+  return 20;
+}
+
+async function deleteTest(id) {
+  if (!confirm('Je i sigurt që dëshiron ta fshish këtë test?')) return;
+  await api(`/api/tests/${id}`, 'DELETE');
+  loadTests();
+}
+
+// ── CREATE TEST ───────────────────────────────────────────────────────────────
+let questionsData = [];
+let targetQuestionCount = 10;
+
+function openCreateTest() {
+  questionsData = [];
+  document.getElementById('ct-subject').value = '';
+  document.getElementById('questions-builder').innerHTML = '';
+  document.getElementById('q-count-label').textContent = '0 pyetje';
+  clearError('create-test-error');
+  document.getElementById('ct-info').classList.add('hidden');
+  openModal('modal-create-test');
+}
+
+function updateQuestionCount() {
+  const subj = document.getElementById('ct-subject').value;
+  if (!subj) return;
+  targetQuestionCount = getQuestionCount(subj);
+  const infoEl = document.getElementById('ct-info');
+  infoEl.classList.remove('hidden');
+  const ptsPerQ = targetQuestionCount === 10 ? 10 : 5;
+  infoEl.innerHTML = `ℹ️ Lënda <strong>${subj}</strong> kërkon <strong>${targetQuestionCount} pyetje</strong>. Secila pyetje = <strong>${ptsPerQ} pikë</strong> (Total: 100 pikë)`;
+  // Reset questions
+  questionsData = [];
+  document.getElementById('questions-builder').innerHTML = '';
+  // Auto-add required questions
+  for (let i = 0; i < targetQuestionCount; i++) addQuestion();
+}
+
+function addQuestion() {
+  const idx = questionsData.length;
+  questionsData.push({ question: '', options: ['','','',''], correct: 0 });
+  const builder = document.getElementById('questions-builder');
+  const div = document.createElement('div');
+  div.className = 'question-builder';
+  div.id = `qb-${idx}`;
+  div.innerHTML = `
+    <div class="qb-header">
+      <span style="font-size:13px;font-weight:700;color:var(--accent)">Pyetja ${idx+1}</span>
+      <button class="btn btn-danger btn-sm" onclick="removeQuestion(${idx})">✕</button>
+    </div>
+    <div class="form-group">
+      <textarea class="form-textarea" placeholder="Shkruaj pyetjen këtu..." style="min-height:60px"
+        oninput="questionsData[${idx}].question=this.value" rows="2"></textarea>
+    </div>
+    <div class="options-grid">
+      ${['A','B','C','D'].map((l,oi) => `
+        <div style="display:flex;align-items:center;gap:8px">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0">
+            <input type="radio" name="correct-${idx}" value="${oi}" ${oi===0?'checked':''} onchange="questionsData[${idx}].correct=${oi}">
+            <span class="option-letter" style="background:var(--surface)">${l}</span>
+          </label>
+          <input class="form-input" placeholder="Opsioni ${l}" oninput="questionsData[${idx}].options[${oi}]=this.value" style="flex:1">
+        </div>
+      `).join('')}
+    </div>
+    <div class="mt-1 text-muted text-sm">☝️ Zgjidh butonin radio pranë opsionit të saktë</div>`;
+  builder.appendChild(div);
+  document.getElementById('q-count-label').textContent = `${questionsData.length} pyetje`;
+}
+
+function removeQuestion(idx) {
+  // Remove by rebuilding
+  const subj = document.getElementById('ct-subject').value;
+  questionsData.splice(idx, 1);
+  document.getElementById('questions-builder').innerHTML = '';
+  const temp = [...questionsData];
+  questionsData = [];
+  temp.forEach(() => {});
+  // Full rebuild
+  const builder = document.getElementById('questions-builder');
+  builder.innerHTML = '';
+  questionsData = [];
+  temp.forEach((q, newIdx) => {
+    addQuestion();
+    // Restore data
+    setTimeout(() => {
+      const textarea = builder.querySelector(`#qb-${newIdx} textarea`);
+      if (textarea) textarea.value = q.question;
+      q.options.forEach((opt, oi) => {
+        const inputs = builder.querySelectorAll(`#qb-${newIdx} input[type=text], #qb-${newIdx} input:not([type=radio])`);
+        if (inputs[oi]) inputs[oi].value = opt;
+      });
+      questionsData[newIdx] = q;
+    }, 0);
+  });
+}
+
+async function saveTest() {
+  clearError('create-test-error');
+  const subject = document.getElementById('ct-subject').value;
+  if (!subject) return showError('create-test-error', 'Zgjidh lëndën mësimore!');
+  
+  const gradeCheckboxes = document.querySelectorAll('#ct-grades input:checked');
+  const gradeLevels = Array.from(gradeCheckboxes).map(cb => cb.value);
+  if (!gradeLevels.length) return showError('create-test-error', 'Zgjidh të paktën një klasë!');
+  
+  if (questionsData.length !== targetQuestionCount) {
+    return showError('create-test-error', `Duhen saktësisht ${targetQuestionCount} pyetje! Keni ${questionsData.length}.`);
+  }
+  
+  for (let i = 0; i < questionsData.length; i++) {
+    const q = questionsData[i];
+    if (!q.question.trim()) return showError('create-test-error', `Pyetja ${i+1} është bosh!`);
+    for (let j = 0; j < 4; j++) {
+      if (!q.options[j] || !q.options[j].trim()) return showError('create-test-error', `Pyetja ${i+1}: Opsioni ${['A','B','C','D'][j]} është bosh!`);
+    }
+  }
+  
+  const data = await api('/api/tests', 'POST', {
+    subject, grade_levels: gradeLevels, questions: questionsData,
+    duration_seconds: 3600, admin_id: adminSession.adminId
+  });
+  
+  if (data.success) {
+    closeModal('modal-create-test');
+    loadTests();
+    // Show code
+    alert(`✅ Testi u krijua me sukses!\n\nKodi i Testit: ${data.test_code}\n\nNdaje këtë kod me nxënësit.`);
+  } else {
+    showError('create-test-error', data.error || 'Gabim gjatë ruajtjes');
+  }
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+async function loadResults() {
+  const testId = document.getElementById('results-test-filter').value;
+  let url = testId ? `/api/results/${testId}` : '/api/results/all';
+  const data = await api(url);
+  
+  const exportBtns = document.getElementById('results-export-btns');
+  if (testId) {
+    exportBtns.classList.remove('hidden');
+    exportBtns.innerHTML = `
+      <a href="/api/export/excel/${testId}" class="btn btn-success btn-sm">📊 Eksporto Excel</a>
+      <a href="/api/export/pdf/${testId}" class="btn btn-secondary btn-sm">📄 Eksporto PDF</a>`;
+  } else {
+    exportBtns.classList.add('hidden');
+  }
+  
+  if (!data.length) {
+    document.getElementById('results-container').innerHTML = `<div class="card text-center" style="padding:48px">
+      <div style="font-size:48px;margin-bottom:16px">📭</div>
+      <p class="text-muted">Asnjë rezultat ende</p>
+    </div>`;
+    return;
+  }
+  
+  const rankIcon = (r) => r===1?'🥇':r===2?'🥈':r===3?'🥉':r;
+  
+  document.getElementById('results-container').innerHTML = `<div class="table-wrap">
+    <table>
+      <thead><tr>
+        <th>#</th><th>ID Sesioni</th><th>Emri</th><th>Klasa</th><th>Shkolla</th>
+        ${!testId ? '<th>Lënda</th>' : ''}
+        <th>Pikët</th><th>%</th><th>Kohëzgjatja</th><th>Gabime</th><th>Detaje</th>
+      </tr></thead>
+      <tbody>
+        ${data.map((s, i) => {
+          const pct = Math.round(s.score/s.max_score*100);
+          const badgeCls = pct>=70?'badge-green':pct>=50?'badge-gold':'badge-red';
+          const rank = s.rank || (i+1);
+          return `<tr class="rank-${rank}">
+            <td style="font-size:18px">${rankIcon(rank)}</td>
+            <td><span class="mono text-muted" style="font-size:11px">${s.id.substring(0,8).toUpperCase()}</span></td>
+            <td><strong>${s.student_name} ${s.student_surname}</strong></td>
+            <td><span class="badge badge-blue">${s.grade}</span></td>
+            <td>${s.school}</td>
+            ${!testId ? `<td>${s.subject}</td>` : ''}
+            <td><strong>${s.score}/${s.max_score}</strong></td>
+            <td><span class="badge ${badgeCls}">${pct}%</span></td>
+            <td class="text-muted">${formatDuration(s.duration_taken)}</td>
+            <td><span class="badge badge-red">${s.wrong_questions.length} ✗</span></td>
+            <td><button class="btn btn-secondary btn-sm" onclick='showStudentDetail(${JSON.stringify(s)})'>👁</button></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function showStudentDetail(s) {
+  document.getElementById('modal-student-name').textContent = `${s.student_name} ${s.student_surname}`;
+  const pct = Math.round(s.score/s.max_score*100);
+  const letters = ['A','B','C','D'];
+  let html = `
+    <div class="grid-2 mb-2">
+      <div class="card" style="padding:16px">
+        <div class="text-muted text-sm mb-1">Pikët</div>
+        <div style="font-size:28px;font-weight:800;color:${pct>=50?'var(--green)':'var(--red)'}">${s.score}/${s.max_score}</div>
+        <div class="badge ${pct>=50?'badge-green':'badge-red'}">${pct}%</div>
+      </div>
+      <div class="card" style="padding:16px">
+        <div class="text-muted text-sm mb-1">Informacione</div>
+        <div class="text-sm"><strong>ID:</strong> <span class="mono">${s.id.substring(0,8).toUpperCase()}</span></div>
+        <div class="text-sm"><strong>Klasa:</strong> ${s.grade}</div>
+        <div class="text-sm"><strong>Shkolla:</strong> ${s.school}</div>
+        <div class="text-sm"><strong>Kohëzgjatja:</strong> ${formatDuration(s.duration_taken)}</div>
+      </div>
+    </div>`;
+  
+  if (s.wrong_questions && s.wrong_questions.length > 0) {
+    html += `<div style="font-size:14px;font-weight:700;margin-bottom:12px">❌ Pyetjet me Gabime (${s.wrong_questions.length})</div>`;
+    s.wrong_questions.forEach((wq, i) => {
+      html += `<div class="question-builder" style="margin-bottom:10px">
+        <div style="font-weight:600;margin-bottom:8px;font-size:13px">Pyetja ${wq.index+1}: ${wq.question}</div>
+        ${wq.options.map((opt, oi) => {
+          let cls = '';
+          if (oi === wq.correct_answer) cls = 'correct';
+          else if (oi === wq.your_answer) cls = 'wrong';
+          return `<div class="option-btn ${cls}" style="cursor:default;margin-bottom:4px;padding:8px 12px;font-size:12px">
+            <span class="option-letter" style="width:22px;height:22px;font-size:10px">${letters[oi]}</span>${opt}
+            ${oi === wq.correct_answer ? '<span class="badge badge-green" style="margin-left:auto">✓</span>' : ''}
+            ${oi === wq.your_answer && oi !== wq.correct_answer ? '<span class="badge badge-red" style="margin-left:auto">✗</span>' : ''}
+          </div>`;
+        }).join('')}
+      </div>`;
+    });
+  } else {
+    html += `<div class="alert alert-success">🎉 Të gjitha pyetjet u përgjigjën saktë!</div>`;
+  }
+  
+  document.getElementById('modal-student-content').innerHTML = html;
+  openModal('modal-student-detail');
+}
+
+// keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (quizState && document.getElementById('page-quiz').classList.contains('active')) {
+    if (e.key === 'ArrowRight') nextQuestion();
+    if (e.key === 'ArrowLeft') prevQuestion();
+    if (['1','2','3','4'].includes(e.key)) selectAnswer(quizState.current, parseInt(e.key)-1);
+  }
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+});
+</script>
+</body>
+</html>

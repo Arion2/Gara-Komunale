@@ -68,7 +68,7 @@ def init_db():
     # Insert default admin
     try:
         c.execute("INSERT OR IGNORE INTO admins (id, username, password) VALUES (?,?,?)",
-                  (str(uuid.uuid4()), 'admin', 'admin123'))
+                  (str(uuid.uuid4()), 'Arion', 'arionm1234'))
     except: pass
     # Insert schools from document
     schools = [
